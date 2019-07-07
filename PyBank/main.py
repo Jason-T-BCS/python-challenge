@@ -16,14 +16,14 @@ with open("budget_data.csv", "r") as csvfile:
     csv_reader = csv.reader(csvfile, delimiter =",")
     csv_header = next(csv_reader)
     
-    
     for row in csv_reader:
         date = row[0]
         revenue = float(row[1])
         date_list.append(date)
         revenue_list.append(revenue)
         total_revenue += revenue
-        
+   
+    # Calculation    
     total_month = len(date_list)
     for i in range(1,len(date_list)):
         change = revenue_list[i]-revenue_list[i-1]
@@ -33,7 +33,8 @@ with open("budget_data.csv", "r") as csvfile:
         if change < change_min[1]:
             change_min = [date_list[i],change]
         average_change = total_change / total_month
-            
+        
+        # Results    
         line1 = 'Financial Analysis'
         line2 = '------------------'
         line3 = 'Total Months: ' + str(total_month)
@@ -49,3 +50,9 @@ with open("budget_data.csv", "r") as csvfile:
         for line in summary:
             print(line)
         print('')
+        
+        # Writing
+        output_file_path = 'budget_analysis.txt'
+        with open(output_file_path, 'w') as file_out:
+            for line in summary:
+                file_out.write(line + '\n')
